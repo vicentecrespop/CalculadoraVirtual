@@ -1,0 +1,213 @@
+<html>
+    <head>
+        <title>Calculadora</title>
+        <meta charset="UTF-8"> 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <style>
+
+            .calculadora
+            {
+                position: relative;
+                border: 5px solid #000;
+                height: 600px;
+                width: 400px;
+                margin: 15px;
+                background-color: whitesmoke;
+                overflow: hidden;
+            }
+            
+            #display
+            {
+                position: absolute;
+                height: 80px;
+                width: 380px;
+                background-color: white;
+                border: 5px solid ;
+                margin-top: 5px;
+                margin-left: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: right;
+                font-size: 70px;                
+            }
+
+            #teclado
+            {
+                position: absolute;
+                height: 455px;
+                width: 380px;
+                background-color: white;
+                border: 5px solid;
+                margin-top: 90px;
+                margin-left: 5px;
+            }
+
+            .coluna
+            {
+                display: inline-block;
+            }
+
+            .botao
+            {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;                
+                height: 80px;
+                width: 87px;
+                border: 5px solid;
+                margin: 5px -5px 0px 5px;
+                font-size: 70px;
+                font-family: Arial, Helvetica, sans-serif;                
+                overflow: hidden;
+            }
+            .botao:hover
+            {
+                background-color: darkgray;
+            }
+            span
+            {
+                position: absolute;
+            }
+
+            .diferente
+            {
+                font-size: 40px;               
+            }
+            
+        </style>
+    </head>
+
+    <body>
+        <div class="calculadora">
+            <div id="display"></div>
+            <div id="teclado">                
+                <div class="botao" id="1" onclick="adicionaNum(event)">1</div>
+                <div class="botao" id="2" onclick="adicionaNum(event)">2</div>
+                <div class="botao" id="3" onclick="adicionaNum(event)">3</div>                
+                <div class="botao" id="+" onclick="principal(event)">+</div>                
+                <div class="botao" id="4" onclick="adicionaNum(event)">4</div>                
+                <div class="botao" id="5" onclick="adicionaNum(event)">5</div>                
+                <div class="botao" id="6" onclick="adicionaNum(event)">6</div>                
+                <div class="botao" id="-" onclick="principal(event)">-</div>                
+                <div class="botao" id="7" onclick="adicionaNum(event)">7</div>                
+                <div class="botao" id="8" onclick="adicionaNum(event)">8</div>
+                <div class="botao" id="9" onclick="adicionaNum(event)">9</div>
+                <div class="botao" id="=" onclick="principal(event)">=</div>               
+                <div class="botao" id="x" onclick="principal(event)"><span id="x">x</span></div>               
+                <div class="botao" id="0" onclick="adicionaNum(event)"><span id="0">0</span></div>               
+                <div class="botao" id="/" onclick="principal(event)"><span id="/">/</span></div>               
+                <div class="botao" id="AC" onclick="limpa()"><span id="AC"class="diferente">AC</span></div>                
+                <div class="botao" id="." onclick="adicionaNum(event)">.</div>
+                <div class="botao" id="!" onclick="clicou(event)">!</div>
+                <div class="botao" id="**" onclick="clicou(event)">n<sup id="**" class="diferente">x</sup></div>
+                <div class="botao" id="" onclick="clicou(event)">?</div>
+
+            </div>
+        </div>
+        <script>
+            //Display
+            let display = document.getElementById('display')
+
+            // Array com os numeros digitados
+            let valores = [[0], [0], []]
+
+            // Transforma array de numeros em um numero
+            const transformaEmNumero = array => Number(array.join(''))
+
+            // Variavel que atribui se valores vao para primeiro ou segundo array de numeros
+            let posicaoValor = 0
+
+            // Variavel para corrigir divisão por zero nas funções multiplica e divide
+            let primeira_vez = true
+
+            // Soma 2 numeros
+            const soma = (n1, n2) => n1 + n2
+
+            // Subtrai 2 numeros
+            const subtrai = (n1, n2) => n1 - n2       
+
+            // Multiplica 2 numeros
+            function multiplica(n1, n2, primeiraVez = true) {                
+                primeira_vez = false
+                if (primeiraVez) n2 = 1
+                return n1 * n2                
+            }
+
+            // Divide 2 numeros
+            function divide(n1, n2, primeiraVez = true) {               
+                primeira_vez = false
+                if (primeiraVez) n2 = 1
+                return n1 / n2             
+            }
+
+            // Adiciona numero clicado ao array valores
+            function adicionaNum(e) {
+                valores[posicaoValor].push(e.target.id)
+                display.innerHTML += e.target.id
+                console.log(valores)
+            }
+
+            // Mostra resultado no display
+            function resultado() {                
+                display.innerHTML = valores[0]
+            }
+
+            // Limpa valores
+            function limpa() {
+                valores = [[0], [0], []]
+                display.innerHTML = ''
+                primeira_vez = true
+                posicaoValor = 0
+            }
+            
+            // Variavel que permite operações com numeros negativos
+            let sinal = 1
+
+            function principal(e) {
+                if (e.target.id != '=') {
+                    if (valores[2].length > 0 && e.target.id == '-') {
+                        sinal = -1  
+                        primeira_vez = true                      
+                    } else {
+                        valores[2].push(e.target.id)
+                    }
+                }
+                // Se usuario chamar mais de uma operação seguida mostra erro no display
+                if (valores[2].length > 1) {
+                    display.innerHTML = 'Erro!'
+                    return
+                }
+                posicaoValor = 1
+                display.innerHTML += e.target.id
+
+                // Variavel que recebe o resultado da operação
+                let res = 0
+
+                // Transforma array de numeros em um numero
+                n1 = transformaEmNumero(valores[0])
+                n2 = transformaEmNumero(valores[1]) * sinal
+                console.log(n1, n2)
+
+                // Verifica qual operação foi chamada pelo usuario e calcula valor de respota
+                if (valores[2] == '+') res = soma(n1, n2)
+                else if (valores[2] == '-') res = subtrai(n1, n2)
+                else if (valores[2] == 'x') res = multiplica(n1, n2, primeira_vez)
+                else if (valores[2] == '/') res = divide(n1, n2, primeira_vez)
+                console.log(res)
+                valores[0] = [res]
+                valores[1] = [0]
+
+                // Quando o usuario clicar o sinal de igual
+                if (e.target.id == '=') {
+                    display.innerHTML = valores[0]               
+                    primeira_vez = true
+                    valores[2].pop()                    
+                    sinal = 1
+                }
+            }
+            
+
+        </script>
+    </body>
+    </html>
