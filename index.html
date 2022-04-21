@@ -5,10 +5,37 @@
         <meta charset="UTF-8"> 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <style>
+            header
+            {
+                width: 100vw;
+                height: 10vh;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                padding-top: 10vh;
+            }
+
+            .container
+            {
+                width: 100vw;
+                height: 90vh;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+
+            h1
+            {
+                font-size: 50px;
+                font-weight: bold;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }
 
             .calculadora
             {
-                position: relative;
+                position: relative;         
                 border: 5px solid #000;
                 height: 600px;
                 width: 400px;
@@ -101,164 +128,37 @@
     </head>
 
     <body>
-        <div class="calculadora">
-            <div id="display"></div>
-            <div id="teclado">            
-                <div id="operacoes">                               
-                    <div class="operacoes" id="+" onclick="principal(event)">+</div>                
-                    <div class="operacoes" id="-" onclick="principal(event)">-</div>                
-                    <div class="operacoes" id="x" onclick="principal(event)">x</div>               
-                    <div class="operacoes" id="/" onclick="principal(event)">/</div>               
-                    <div class="operacoes" id="." onclick="adicionaNum(event)">.</div>
-                </div>
-                <div id="teclas">    
-                    <div class="botao" id="1" onclick="adicionaNum(event)">1</div>
-                    <div class="botao" id="2" onclick="adicionaNum(event)">2</div>
-                    <div class="botao" id="3" onclick="adicionaNum(event)">3</div>                
-                    <div class="botao" id="4" onclick="adicionaNum(event)">4</div>                
-                    <div class="botao" id="5" onclick="adicionaNum(event)">5</div>                
-                    <div class="botao" id="6" onclick="adicionaNum(event)">6</div>                
-                    <div class="botao" id="7" onclick="adicionaNum(event)">7</div>                
-                    <div class="botao" id="8" onclick="adicionaNum(event)">8</div>
-                    <div class="botao" id="9" onclick="adicionaNum(event)">9</div>
-                    <div class="botao" id="AC" onclick="limpa()"><span id="AC"class="diferente">AC</span></div>                
-                    <div class="botao" id="0" onclick="adicionaNum(event)"><span id="0">0</span></div>               
-                    <div class="botao" id="=" onclick="principal(event)"><span id="=">=</span></div>               
+        <header>
+            <h1>Calculadora Virtual</h1>
+        </header>
+        <div class="container">
+            <div class="calculadora">
+                <div id="display"></div>
+                <div id="teclado">            
+                    <div id="operacoes">                               
+                        <div class="operacoes" id="+" onclick="principal(event)">+</div>                
+                        <div class="operacoes" id="-" onclick="principal(event)">-</div>                
+                        <div class="operacoes" id="x" onclick="principal(event)">x</div>               
+                        <div class="operacoes" id="/" onclick="principal(event)">/</div>               
+                        <div class="operacoes" id="." onclick="adicionaNum(event)">.</div>
+                    </div>
+                    <div id="teclas">    
+                        <div class="botao" id="1" onclick="adicionaNum(event)">1</div>
+                        <div class="botao" id="2" onclick="adicionaNum(event)">2</div>
+                        <div class="botao" id="3" onclick="adicionaNum(event)">3</div>                
+                        <div class="botao" id="4" onclick="adicionaNum(event)">4</div>                
+                        <div class="botao" id="5" onclick="adicionaNum(event)">5</div>                
+                        <div class="botao" id="6" onclick="adicionaNum(event)">6</div>                
+                        <div class="botao" id="7" onclick="adicionaNum(event)">7</div>                
+                        <div class="botao" id="8" onclick="adicionaNum(event)">8</div>
+                        <div class="botao" id="9" onclick="adicionaNum(event)">9</div>
+                        <div class="botao" id="AC" onclick="limpa()"><span id="AC"class="diferente">AC</span></div>                
+                        <div class="botao" id="0" onclick="adicionaNum(event)"><span id="0">0</span></div>               
+                        <div class="botao" id="=" onclick="principal(event)"><span id="=">=</span></div>               
+                    </div>
                 </div>
             </div>
         </div>
-        <script>
-            //Display
-            let display = document.getElementById('display')
-
-            // Array com os numeros digitados
-            let valores = [[], [], []]
-
-            // Variavel que atribui se valores vao para primeiro ou segundo array de numeros
-            let posicaoValor = 0
-
-            // Soma 2 numeros
-            const soma = (n1, n2) => n1 + n2
-
-            // Subtrai 2 numeros
-            const subtrai = (n1, n2) => n1 - n2       
-
-            // Multiplica 2 numeros
-            const multiplica = (n1, n2) => n1 * n2
-
-            // Divide 2 numeros
-            const divide = (n1, n2) => n1 / n2     
-                
-            // Adiciona numero clicado ao array valores
-            function adicionaNum(e) {
-                if (e.target.id == '.' && valores[1].length == 0) {
-                    valores[0].push(e.target.id)
-                } else {
-                    valores[posicaoValor].push(e.target.id)
-                }
-                display.innerHTML += e.target.id
-                console.log(valores)
-
-            }            
-
-            // Limpa valores
-            function limpa() {
-                valores = [[], [], []]
-                display.innerHTML = ''
-                display.style.fontSize = '70px'                
-                posicaoValor = 0
-            }
-
-            // Verifica o tamanho em caracteres do numero
-            const tamanhoNumero = num => String(num).length
-
-            // Formata resultado para aparecer no display
-            function formataNumero(num) {
-                indice = 0
-                let res = `${num}`
-                let tamanho = tamanhoNumero(num)
-                while (num > 10 && tamanho > 6) {
-                    num = num / 10
-                    indice++
-                    res = `${num}x10<sup>${indice}</sup>`
-                }
-                while (num < 0.01 && num > 0 && tamanho > 6) {
-                    num = num * 10
-                    indice--
-                    res = `${num}x10<sup>${indice}</sup>`
-                }
-                
-                // Se o resultado for em notação científica o tamanho da fonte diminui
-                if(res.includes('x10')) {
-                    display.style.fontSize = '35px'
-                }
-                else {
-                    display.style.fontSize = '70px'
-                }                
-                return res
-            }
-            
-            function principal(e) {
-                if (valores[0] != 0) posicaoValor = 1
-                let numeroAtual = valores[posicaoValor]
-                if (e.target.id != '=') {
-                    if (e.target.id == '-') {
-                        // Checar se array ja é negativo
-                        if (!numeroAtual.includes('-')) {
-                            numeroAtual.push('-')
-                        }                     
-                        display.innerHTML += e.target.id
-                        return                     
-                    } else {                        
-                        valores[2].push(e.target.id)
-                    }
-                }
-
-                function isNegative(element, index, array) {
-                    if (element == '-' && index != 0) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-
-                // Se usuario chamar mais de uma operação seguida mostra erro no display
-                if (valores[2].length > 1 ) {
-                    display.innerHTML = 'Erro!'
-                    return
-                }
-                display.innerHTML += e.target.id 
-                console.log(valores)
-                // Variavel que recebe o resultado da operação
-                let res = 0
-
-                
-                // Pega valor do numero dentro dos arrays                
-                n1 = parseFloat(valores[0].join('')) 
-                n2 = parseFloat(valores[1].join(''))                 
-
-                // Quando o usuario clicar o sinal de igual
-                if (e.target.id == '=') {
-                    let resultado = 0
-                    // Verifica qual operação foi chamada pelo usuario e calcula valor de respota
-                    if (valores[2] == '+') resultado = soma(n1, n2)
-                    else if (valores[2] == 0) resultado = soma(n1, n2)
-                    else if (valores[2] == 'x') resultado = multiplica(n1, n2)
-                    else if (valores[2] == '/') resultado = divide(n1, n2)
-                    res = parseFloat(resultado.toFixed(8))
-                    valores[0] = [res]
-                    valores[1] = []
-                    valores[2].pop()   
-
-                    // Mostra resultado no display
-                    display.innerHTML = formataNumero(valores[0])                   
-
-
-                    // 2 + 3 - 4 Dando erro
-                    
-                }
-            }
-
-        </script>
+        <script src="calculadora.js"></script>
     </body>
     </html>
